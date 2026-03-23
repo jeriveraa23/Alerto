@@ -1,6 +1,6 @@
 ﻿# **Diagrama de Arquitectura**
 
- <img width="3280" height="1101" alt="Diagrama Arquitectura Alerto drawio" src="https://github.com/user-attachments/assets/021a7f84-ba9d-47aa-acc4-46c7e273909a" />
+![Diagrama Arquitectura Alerto](https://github.com/user-attachments/assets/b50f5548-ec58-4e76-a9fa-cbc5567f4dbd)
 
 
 # **Modelo de Base de Datos**
