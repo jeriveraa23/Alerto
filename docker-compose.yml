@@ -15,6 +15,11 @@ services:
       - postgres_data:/var/lib/postgresql/data
     env_file:
       - .env
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER} -d ${POSTGRES_DB}"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
 
   backend:
     build:
@@ -23,12 +28,13 @@ services:
     container_name: alerto_backend
     restart: unless-stopped
     depends_on:
-      - postgres
+      postgres:
+        condition: service_healthy
     ports:
       - "8000:8000"
     env_file:
       - .env
-  
+
   frontend:
     build:
       context: ./frontend
@@ -45,13 +51,15 @@ services:
     container_name: alerto_airflow_web
     restart: unless-stopped
     depends_on:
-      - postgres
+      postgres:
+        condition: service_healthy
     ports:
       - "8080:8080"
     env_file:
       - .env
     volumes:
-    - airflow_data:/opt/airflow
+      - airflow_data:/opt/airflow
+      - ./airflow/dags:/opt/airflow/dags
 
   airflow-scheduler:
     build:
@@ -60,10 +68,13 @@ services:
     container_name: alerto_airflow_scheduler
     restart: unless-stopped
     depends_on:
-      - postgres
-      - airflow-webserver
+      postgres:
+        condition: service_healthy
     env_file:
       - .env
+    volumes:
+      - airflow_data:/opt/airflow
+      - ./airflow/dags:/opt/airflow/dags
 
   dbt:
     build:
@@ -71,10 +82,12 @@ services:
       dockerfile: ../docker/dbt.Dockerfile
     container_name: alerto_dbt
     depends_on:
-      - postgres
+      postgres:
+        condition: service_healthy
     env_file:
       - .env
 
 volumes:
   postgres_data:
   airflow_data:
+  

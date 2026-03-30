@@ -1,7 +1,11 @@
 #!/bin/bash
 
 echo "Esperando a la DB..."
-sleep 15
+
+until airflow db check; do
+  echo "Postgres no está listo, esperando..."
+  sleep 5
+done
 
 echo "Iniciando scheduler..."
 exec airflow scheduler
