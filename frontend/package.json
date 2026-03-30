@@ -1,0 +1,10 @@
+{
+  "name": "alerto-frontend",
+  "version": "1.0.0",
+  "description": "Frontend del sistema Alerto",
+  "main": "index.js",
+  "scripts": {
+    "start": "echo \"Frontend en construcción\""
+  },
+  "dependencies": {}
+}
