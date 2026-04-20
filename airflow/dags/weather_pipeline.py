@@ -1,5 +1,6 @@
 from airflow import DAG
 from airflow.operators.python import PythonOperator
+from airflow.operators.bash import BashOperator
 from datetime import datetime, timezone
 
 from elt.extract import OpenMeteoCurrentExtractor, OpenMeteoHourlyExtractor
@@ -28,6 +29,8 @@ with DAG(
     catchup=False,
     tags=["alerto", "weather"],
 ) as dag:
+    
+    # ============ BRONZE ============
 
     task_current = PythonOperator(
         task_id="extract_transform_load_current",
@@ -39,4 +42,22 @@ with DAG(
         python_callable=run_hourly_pipeline,
     )
 
-    task_current >> task_hourly
+    # ============ SILVER ============
+
+    task_dbt_silver_run = BashOperator(
+        task_id="dbt_run_silver",
+        bash_command=(
+            "cd /opt/dbt && "
+            "dbt run --select silver --profiles-dir /opt/dbt --project-dir /opt/dbt"
+        ),
+    )
+
+    task_dbt_silver_test = BashOperator(
+        task_id="dbt_test_silver",
+        bash_command=(
+            "cd /opt/dbt && "
+            "dbt test --select silver --profiles-dir /opt/dbt --project-dir /opt/dbt"
+        ),
+    )
+
+    [task_current, task_hourly] >> task_dbt_silver_run >> task_dbt_silver_test
