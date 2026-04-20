@@ -11,6 +11,7 @@ __pycache__/
 # Airflow
 airflow/logs/
 airflow/plugins/__pycache__/
+airflow/dags/__pycache__/
 
 # Node
 node_modules/
