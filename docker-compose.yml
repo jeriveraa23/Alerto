@@ -89,6 +89,11 @@ services:
         condition: service_healthy
     env_file:
       - .env
+    volumes:
+      - ./dbt:/dbt
+    working_dir: /dbt
+    environment:
+      DBT_PROFILES_DIR: /dbt
 
 volumes:
   postgres_data:
