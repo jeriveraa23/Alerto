@@ -18,17 +18,23 @@ models:
         tests:
           - not_null
           - dbt_utils.accepted_range:
-              min_value: 0
-              max_value: 500
+              arguments:
+                min_value: 0
+                max_value: 500
       - name: humidity_pct
         tests:
           - dbt_utils.accepted_range:
-              min_value: 0
-              max_value: 100
+              arguments:
+                min_value: 0
+                max_value: 100
 
   - name: silver_weather_current
     description: "Snapshots del clima actual, uno por extracción"
     columns:
+      - name: bronze_id
+        tests:
+          - not_null
+          - unique
       - name: fetched_at
         tests:
           - not_null
@@ -36,5 +42,6 @@ models:
         tests:
           - not_null
           - dbt_utils.accepted_range:
-              min_value: 0
-              max_value: 500
+              arguments:
+                min_value: 0
+                max_value: 500
