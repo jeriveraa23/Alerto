@@ -56,7 +56,8 @@ with DAG(
         task_id="dbt_test_silver",
         bash_command=(
             "cd /opt/dbt && "
-            "dbt test --select silver --profiles-dir /opt/dbt --project-dir /opt/dbt"
+            "dbt deps --profiles-dir /opt/dbt --project-dir /opt/dbt && "
+            "dbt run --select silver --profiles-dir /opt/dbt --project-dir /opt/dbt"
         ),
     )
 
