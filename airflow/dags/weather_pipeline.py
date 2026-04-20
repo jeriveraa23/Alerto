@@ -61,4 +61,22 @@ with DAG(
         ),
     )
 
-    [task_current, task_hourly] >> task_dbt_silver_run >> task_dbt_silver_test
+    # ============ GOLD ============
+
+    task_dbt_gold_run = BashOperator(
+        task_id="dbt_run_gold",
+        bash_command=(
+            "cd /opt/dbt && "
+            "dbt run --select gold --profiles-dir /opt/dbt --project-dir /opt/dbt"
+        ),
+    )
+
+    task_dbt_gold_test = BashOperator(
+        task_id="dbt_test_gold",
+        bash_command=(
+            "cd /opt/dbt && "
+            "dbt test --select gold --profiles-dir /opt/dbt --project-dir /opt/dbt"
+        ),
+    )
+
+    [task_current, task_hourly] >> task_dbt_silver_run >> task_dbt_silver_test >> task_dbt_gold_run >> task_dbt_gold_test
