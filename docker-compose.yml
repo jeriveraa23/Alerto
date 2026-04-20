@@ -58,10 +58,13 @@ services:
       - "8080:8080"
     env_file:
       - .env
+    environment:
+      DBT_PROFILES_DIR: /opt/dbt
     volumes:
       - airflow_data:/opt/airflow
       - ./airflow/dags:/opt/airflow/dags
       - ./airflow/plugins:/opt/airflow/plugins
+      - ./dbt:/opt/dbt
 
   airflow-scheduler:
     build:
@@ -74,10 +77,13 @@ services:
         condition: service_healthy
     env_file:
       - .env
+    environment:
+      DBT_PROFILES_DIR: /opt/dbt
     volumes:
       - airflow_data:/opt/airflow
       - ./airflow/dags:/opt/airflow/dags
       - ./airflow/plugins:/opt/airflow/plugins
+      - ./dbt:/opt/dbt
 
   dbt:
     build:
@@ -89,6 +95,11 @@ services:
         condition: service_healthy
     env_file:
       - .env
+    volumes:
+      - ./dbt:/dbt
+    working_dir: /dbt
+    environment:
+      DBT_PROFILES_DIR: /dbt
 
 volumes:
   postgres_data:
