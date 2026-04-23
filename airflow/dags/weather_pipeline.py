@@ -6,6 +6,7 @@ from datetime import datetime, timezone
 from elt.extract import OpenMeteoCurrentExtractor, OpenMeteoHourlyExtractor
 from elt.transform import transform_current, transform_hourly
 from elt.load import load_current, load_hourly
+from risk_engine import run_risk_engine
 
 
 def run_current_pipeline():
@@ -56,8 +57,7 @@ with DAG(
         task_id="dbt_test_silver",
         bash_command=(
             "cd /opt/dbt && "
-            "dbt deps --profiles-dir /opt/dbt --project-dir /opt/dbt && "
-            "dbt run --select silver --profiles-dir /opt/dbt --project-dir /opt/dbt"
+            "dbt test --select silver --profiles-dir /opt/dbt --project-dir /opt/dbt"
         ),
     )
 
@@ -79,4 +79,11 @@ with DAG(
         ),
     )
 
-    [task_current, task_hourly] >> task_dbt_silver_run >> task_dbt_silver_test >> task_dbt_gold_run >> task_dbt_gold_test
+    # ============ RISK ENGINE ============
+
+    task_risk_engine = PythonOperator(
+        task_id="run_risk_engine",
+        python_callable=run_risk_engine,
+    )
+
+    [task_current, task_hourly] >> task_dbt_silver_run >> task_dbt_silver_test >> task_dbt_gold_run >> task_dbt_gold_test >> task_risk_engine
