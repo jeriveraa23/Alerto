@@ -4,3 +4,4 @@ pandas
 sqlalchemy
 scikit-fuzzy
 numpy
+dbt-postgres==1.8.2
