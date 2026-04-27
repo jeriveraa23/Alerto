@@ -14,9 +14,7 @@ with source as (
         where id > (select coalesce(max(bronze_id), 0) from {{ this }})
     {% endif %}
 
-),
-
-cleaned as (
+), cleaned as (
 
     select
         id                                             as bronze_id,
@@ -37,6 +35,13 @@ cleaned as (
 
     from source
 
+),deduplicated as (
+
+    select distinct on (bronze_id)
+        *
+    from cleaned
+    order by bronze_id, fetched_at desc
+
 )
 
-select * from cleaned
+select * from deduplicated
