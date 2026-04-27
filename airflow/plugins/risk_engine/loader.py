@@ -18,7 +18,7 @@ def _fetch_gold_features(conn):
             precipitation_3h,
             humidity_avg_6h,
             intensity_mm_h
-        FROM gold.gold_risk_features_latest
+        FROM public_gold.gold_risk_features_latest
         LIMIT 1
     """))
     return result.mappings().one()
