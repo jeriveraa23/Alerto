@@ -32,3 +32,4 @@ dbt/logs/
 Error log.txt
 airflow/dags/__pycache__/
 airflow/plugins/elt/__pycache__/
+airflow/plugins/risk_engine/__pycache__/
