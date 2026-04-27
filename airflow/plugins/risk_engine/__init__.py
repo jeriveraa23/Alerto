@@ -1,3 +1,3 @@
-from sqlalchemy import Table, Column, Integer, Float, String, MetaData, TIMESTAMP
+from risk_engine.loader import run_risk_engine
 
-metadata = MetaData()
+__all__ = ["run_risk_engine"]
