@@ -1,9 +1,12 @@
 FROM python:3.11-slim
 
-WORKDIR /dbt
+  WORKDIR /dbt
 
-RUN pip install dbt-postgres
+  RUN pip install dbt-postgres
 
-COPY . .
+  RUN printf '#!/bin/bash\nset -e\necho "Instalando paquetes dbt..."\ndbt deps --project-dir /dbt --profiles-dir /dbt\nexec "$@"\n' > /entrypoint.sh && chmod +x /entrypoint.sh
 
-CMD ["tail", "-f", "/dev/null"]
+  COPY . .
+
+  ENTRYPOINT ["/entrypoint.sh"]
+  CMD ["tail", "-f", "/dev/null"]
