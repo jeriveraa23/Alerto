@@ -43,6 +43,16 @@ with DAG(
         python_callable=run_hourly_pipeline,
     )
 
+    # ============ DBT DEPS ============
+
+    task_dbt_deps = BashOperator(
+        task_id="dbt_deps",
+        bash_command=(
+            "cd /opt/dbt && "
+            "dbt deps --profiles-dir /opt/dbt --project-dir /opt/dbt"
+        ),
+    )
+
     # ============ SILVER ============
 
     task_dbt_silver_run = BashOperator(
@@ -86,4 +96,4 @@ with DAG(
         python_callable=run_risk_engine,
     )
 
-    [task_current, task_hourly] >> task_dbt_silver_run >> task_dbt_silver_test >> task_dbt_gold_run >> task_dbt_gold_test >> task_risk_engine
+    [task_current, task_hourly] >> task_dbt_deps >> task_dbt_silver_run >> task_dbt_silver_test >> task_dbt_gold_run >> task_dbt_gold_test >> task_risk_engine
