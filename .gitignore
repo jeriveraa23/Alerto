@@ -28,3 +28,7 @@ dbt/logs/
 
 # Docker
 *.log
+
+Error log.txt
+airflow/dags/__pycache__/
+airflow/plugins/elt/__pycache__/
