@@ -1,11 +1,13 @@
 #!/bin/bash
 
-echo "Esperando a la DB..."
+mkdir -p /opt/dbt/logs
+chmod -R 777 /opt/dbt/logs
 
-until airflow db check; do
+echo "Esperando a la DB..."
+until gosu airflow airflow db check; do
   echo "Postgres no está listo, esperando..."
   sleep 5
 done
 
 echo "Iniciando scheduler..."
-exec airflow scheduler
+exec gosu airflow airflow scheduler

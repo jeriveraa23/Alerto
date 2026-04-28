@@ -1,20 +1,20 @@
 #!/bin/bash
 
-echo "Esperando a Postgres..."
+mkdir -p /opt/dbt/logs
+chmod -R 777 /opt/dbt/logs
 
-# Esperar hasta que la DB responda de verdad
-until airflow db check; do
+echo "Esperando a Postgres..."
+until gosu airflow airflow db check; do
   echo "Postgres no está listo, esperando..."
   sleep 5
 done
 
-# Inicialización SOLO una vez
 if [ ! -f "/opt/airflow/airflow.db_initialized" ]; then
   echo "Inicializando DB..."
-  airflow db upgrade
+  gosu airflow airflow db upgrade
 
   echo "Creando usuario admin..."
-  airflow users create \
+  gosu airflow airflow users create \
     --username admin \
     --password admin \
     --firstname admin \
@@ -26,4 +26,4 @@ if [ ! -f "/opt/airflow/airflow.db_initialized" ]; then
 fi
 
 echo "Iniciando webserver..."
-exec airflow webserver
+exec gosu airflow airflow webserver
