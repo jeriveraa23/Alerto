@@ -9,6 +9,7 @@ with latest_data as (
     -- El timestamp más reciente disponible en Silver hourly
     select max(time_local) as as_of_time
     from {{ ref('silver_weather_hourly') }}
+    having max(time_local) is not null
 
 ),
 
