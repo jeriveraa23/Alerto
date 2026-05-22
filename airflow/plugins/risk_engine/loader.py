@@ -5,6 +5,7 @@ from sqlalchemy.dialects.postgresql import insert
 from elt.config import DB_CONN
 from risk_engine.models import alerts
 from risk_engine.engine import calculate_risk
+from alert_service import send_alert
 
 
 def _get_engine():
@@ -49,5 +50,5 @@ def run_risk_engine():
                 "nivel_riesgo":     result["nivel_riesgo"],
             }
         )
-
+    send_alert(result["nivel_riesgo"])
     print(f"Riesgo calculado: {result['nivel_riesgo']} (score={result['riesgo_score']})")
