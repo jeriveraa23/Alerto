@@ -17,8 +17,4 @@ app.add_middleware(
 app.include_router(risk_router)
 app.include_router(precipitation_router)
 app.include_router(simulate_router)
-<<<<<<< HEAD
-
-=======
 app.include_router(auth_router)
->>>>>>> feature/backend-api
