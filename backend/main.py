@@ -3,6 +3,7 @@ from fastapi.middleware.cors import CORSMiddleware
 from app.controllers.risk_controller import router as risk_router
 from app.controllers.precipitation_controller import router as precipitation_router
 from app.controllers.simulate_controller import router as simulate_router
+from app.controllers.auth_controller import router as auth_router
 
 app = FastAPI(title="Alerto API")
 
@@ -16,3 +17,4 @@ app.add_middleware(
 app.include_router(risk_router)
 app.include_router(precipitation_router)
 app.include_router(simulate_router)
+app.include_router(auth_router)
