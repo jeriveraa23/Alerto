@@ -33,3 +33,13 @@ CREATE TABLE IF NOT EXISTS alerts (
       riesgo_score      FLOAT NOT NULL,
       nivel_riesgo      VARCHAR(10) NOT NULL
   );
+
+CREATE TABLE IF NOT EXISTS users (
+      id                SERIAL PRIMARY KEY,
+      nombre            VARCHAR(100) NOT NULL,
+      email             VARCHAR(150) UNIQUE NOT NULL,
+      password_hash     TEXT NOT NULL,
+      security_question TEXT NOT NULL,
+      security_answer   TEXT NOT NULL,
+      created_at        TIMESTAMPTZ DEFAULT NOW()
+  );
