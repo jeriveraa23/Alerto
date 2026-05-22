@@ -5,7 +5,7 @@ import './Simulator.css';
 
 const PRESETS = {
 verde:    { label: 'Verde',    precip_1h: 0,  precip_3h: 0,  humedad: 30 },
-amarillo: { label: 'Amarillo', precip_1h: 5,  precip_3h: 12, humedad: 70 },
+amarillo: { label: 'Amarillo', precip_1h: 10, precip_3h: 20, humedad: 70 },
 naranja:  { label: 'Naranja',  precip_1h: 18, precip_3h: 35, humedad: 85 },
 rojo:     { label: 'Rojo',     precip_1h: 40, precip_3h: 75, humedad: 95 },
 };
