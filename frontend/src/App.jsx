@@ -4,6 +4,7 @@ import { Layout } from './components/Layout'
 import { Login } from './pages/Login'
 import { Precipitation } from './pages/Precipitation'
 import { Risk } from './pages/Risk'
+import { Simulator } from './pages/Simulator'
 
 function App() {
   return (
@@ -13,6 +14,7 @@ function App() {
         <Route path="/" element={<Layout />}>
           <Route path="precipitation" element={<Precipitation />} />
           <Route path="risk" element={<Risk />} />
+          <Route path="simulator" element={<Simulator />} />
         </Route>
         <Route path="*" element={<Navigate to="/precipitation" replace />} />
       </Routes>
