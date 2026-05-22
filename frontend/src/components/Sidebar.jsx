@@ -1,12 +1,13 @@
 import React from 'react';
 import { NavLink } from 'react-router-dom';
-import { Droplets, AlertTriangle } from 'lucide-react';
+import { Droplets, AlertTriangle, FlaskConical } from 'lucide-react';
 import './Sidebar.css';
 
 export const Sidebar = () => {
   const menuItems = [
     { path: '/precipitation', name: 'Precipitación', icon: Droplets },
     { path: '/risk', name: 'Riesgo', icon: AlertTriangle },
+    { path: '/simulator',     name: 'Simulador',     icon: FlaskConical  },
   ];
 
   return (
