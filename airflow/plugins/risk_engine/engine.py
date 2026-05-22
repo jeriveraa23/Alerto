@@ -37,11 +37,12 @@ def _build_precipitation_system():
 
     rules = [
         ctrl.Rule(precip_1h['extrema'] | precip_3h['extrema'] | intensidad['torrencial'], nivel_lluvia['alto']),
-        ctrl.Rule(precip_1h['alta']    | intensidad['fuerte'],                             nivel_lluvia['alto']),
+        ctrl.Rule(precip_1h['alta'] & intensidad['fuerte'],                                nivel_lluvia['alto']),
         ctrl.Rule(precip_1h['moderada'] & (precip_3h['moderada'] | precip_3h['alta']),    nivel_lluvia['medio']),
         ctrl.Rule(intensidad['moderada'] & precip_1h['moderada'],                          nivel_lluvia['medio']),
         ctrl.Rule(precip_1h['baja'] & precip_3h['baja'] & intensidad['debil'],            nivel_lluvia['bajo']),
         ctrl.Rule(precip_1h['baja'] & intensidad['debil'],                                 nivel_lluvia['bajo']),
+        ctrl.Rule(precip_1h['baja'] & intensidad['moderada'],                              nivel_lluvia['bajo']),
     ]
 
     return ctrl.ControlSystemSimulation(ctrl.ControlSystem(rules))
