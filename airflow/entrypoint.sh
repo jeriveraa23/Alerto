@@ -25,5 +25,6 @@ if [ ! -f "/opt/airflow/airflow.db_initialized" ]; then
   touch /opt/airflow/airflow.db_initialized
 fi
 
+rm -f /opt/airflow/airflow-webserver.pid
 echo "Iniciando webserver..."
 exec airflow webserver

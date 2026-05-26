@@ -21,13 +21,16 @@ def _fetch_gold_features(conn):
         FROM public_gold.gold_risk_features_latest
         LIMIT 1
     """))
-    return result.mappings().one()
+    return result.mappings().first()
 
 
 def run_risk_engine():
     engine = _get_engine()
     with engine.begin() as conn:
         row = _fetch_gold_features(conn)
+        if row is None:
+            print("No hay datos en gold_risk_features_latest, omitiendo ciclo.")
+            return
 
         result = calculate_risk(
             precip_1h         = float(row["precipitation_1h"]),

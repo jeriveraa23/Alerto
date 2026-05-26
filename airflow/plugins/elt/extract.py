@@ -26,7 +26,7 @@ class OpenMeteoCurrentExtractor(ExtractorBase):
                 return self.raw_data
         except rq.exceptions.RequestException as e:
             print(f"Error en {self.source}: {e}")
-            return None
+            raise
 
 
 class OpenMeteoHourlyExtractor(ExtractorBase):
@@ -44,4 +44,4 @@ class OpenMeteoHourlyExtractor(ExtractorBase):
                 return self.raw_data
         except rq.exceptions.RequestException as e:
             print(f"Error en {self.source}: {e}")
-            return None
+            raise

@@ -1,5 +1,5 @@
-from app.repositories.precipitation_repository import PrecipitationRepository
 from sqlalchemy.orm import Session
+from app.repositories.precipitation_repository import PrecipitationRepository
 
 
 class PrecipitationService:
@@ -20,8 +20,8 @@ class PrecipitationService:
             "as_of_time":       row["as_of_time"],
         }
 
-    def get_history(self):
-        rows = self.repository.get_history()
+    def get_history(self, limit: int = 100, offset: int = 0):
+        rows = self.repository.get_history(limit=limit, offset=offset)
         return [
             {
                 "time_local":       row["time_local"],

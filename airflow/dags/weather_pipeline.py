@@ -1,7 +1,7 @@
 from airflow import DAG
 from airflow.operators.python import PythonOperator
 from airflow.operators.bash import BashOperator
-from datetime import datetime, timezone
+from datetime import datetime, timezone, timedelta
 
 from elt.extract import OpenMeteoCurrentExtractor, OpenMeteoHourlyExtractor
 from elt.transform import transform_current, transform_hourly
@@ -29,6 +29,10 @@ with DAG(
     start_date=datetime(2025, 1, 1, tzinfo=timezone.utc),
     catchup=False,
     tags=["alerto", "weather"],
+    default_args={
+        "retries": 3,
+        "retry_delay": timedelta(minutes=2),
+    },
 ) as dag:
     
     # ============ BRONZE ============
