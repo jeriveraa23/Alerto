@@ -7,8 +7,8 @@ ${API_URL}              http://localhost:8000
 ${FRONTEND_URL}         http://localhost:3000
 ${AIRFLOW_URL}          http://localhost:8080
 ${DB_HOST}              localhost
-${DB_PORT}              5432
-${DB_NAME}              alerto
+${DB_PORT}              15432
+${DB_NAME}              alerto_db
 ${DB_USER}              alerto
 ${DB_PASS}              alerto123
 

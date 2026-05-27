@@ -145,9 +145,7 @@ Decode JWT Payload
     [Documentation]    Decodifica la parte payload del JWT (sin verificar firma)
     ${parts}=    Split String    ${token}    .
     ${payload_b64}=    Get From List    ${parts}    1
-    ${len}=    Get Length    ${payload_b64}
-    ${pad}=    Evaluate    (4 - ${len} % 4) % 4
-    ${padded}=    Set Variable    ${payload_b64}${'=' * ${pad}}
+    # JWT usa base64url — urlsafe_b64decode + padding automático
     ${decoded}=    Evaluate
-    ...    __import__('json').loads(__import__('base64').b64decode('${padded}').decode())
+    ...    __import__('json').loads(__import__('base64').urlsafe_b64decode('${payload_b64}' + '==').decode('utf-8'))
     RETURN    ${decoded}

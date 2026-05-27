@@ -26,52 +26,29 @@ Open And Login As Admin
     [Documentation]    Abre el navegador y hace login como administrador
     Open Alerto Browser    /login
     Login With Credentials    ${ADMIN_EMAIL}    ${ADMIN_PASS}
-    Wait Until Page Contains Element
-    ...    css:.sidebar, css:[class*="sidebar"], css:nav, css:main
-    ...    timeout=${UI_TIMEOUT}
+    Wait Until Page Contains Element    css:.sidebar    timeout=${UI_TIMEOUT}
 
 Open And Login As User
     [Arguments]    ${email}    ${password}
     [Documentation]    Abre el navegador y hace login con las credenciales dadas
     Open Alerto Browser    /login
     Login With Credentials    ${email}    ${password}
-    Wait Until Page Contains Element
-    ...    css:.sidebar, css:[class*="sidebar"], css:nav, css:main
-    ...    timeout=${UI_TIMEOUT}
+    Wait Until Page Contains Element    css:.sidebar    timeout=${UI_TIMEOUT}
 
 Close Alerto Browser
-    [Documentation]    Cierra el navegador
+    [Documentation]    Cierra el navegador con screenshot opcional
     Run Keyword And Ignore Error    Capture Page Screenshot
-    Close Browser
-
-Close Browser
-    [Documentation]    Alias para Close Alerto Browser — cierra el navegador activo
-    Run Keyword And Ignore Error    SeleniumLibrary.Close Browser
+    SeleniumLibrary.Close Browser
 
 # ── Autenticación UI ──────────────────────────────────────────────────────
 
 Login With Credentials
     [Arguments]    ${email}    ${password}
     [Documentation]    Rellena y envía el formulario de login
-    Wait Until Element Is Visible
-    ...    id=email, css:input[type="email"], css:input[name="email"]
-    ...    timeout=${UI_TIMEOUT}
-    ${email_field}=    Run Keyword And Return Status
-    ...    Element Should Be Visible    id=email
-    IF    ${email_field}
-        Input Text    id=email    ${email}
-        Input Text    id=password    ${password}
-    ELSE
-        Input Text    css:input[type="email"]    ${email}
-        Input Text    css:input[type="password"]    ${password}
-    END
-    ${btn}=    Run Keyword And Return Status
-    ...    Element Should Be Visible    css:button[type="submit"]
-    IF    ${btn}
-        Click Button    css:button[type="submit"]
-    ELSE
-        Click Button    css:.btn-primary
-    END
+    Wait Until Element Is Visible    id=email    timeout=${UI_TIMEOUT}
+    Input Text    id=email    ${email}
+    Input Text    id=password    ${password}
+    Click Button    css:button.btn-primary
     Sleep    1.5s
 
 Navigate To Page
