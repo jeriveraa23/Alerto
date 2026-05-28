@@ -27,4 +27,4 @@ fi
 
 rm -f /opt/airflow/airflow-webserver.pid
 echo "Iniciando webserver..."
-exec airflow webserver
+exec airflow webserver --host 0.0.0.0 --port "${PORT:-8080}"

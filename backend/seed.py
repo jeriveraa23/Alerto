@@ -1,12 +1,33 @@
 import os
+from pathlib import Path
 import bcrypt
 from sqlalchemy import create_engine, text
 
 DB_CONN = os.getenv("DATABASE_URL")
 
 
-def seed_admin():
-    engine = create_engine(DB_CONN)
+def get_engine():
+    if not DB_CONN:
+        raise RuntimeError("DATABASE_URL is required to initialize the database")
+    return create_engine(DB_CONN)
+
+
+def init_schema(engine):
+    init_sql_path = os.getenv("INIT_SQL_PATH")
+    if not init_sql_path:
+        return
+
+    path = Path(init_sql_path)
+    if not path.exists():
+        print(f"INIT_SQL_PATH no existe, omitiendo init SQL: {path}")
+        return
+
+    with engine.begin() as conn:
+        conn.execute(text(path.read_text(encoding="utf-8")))
+    print(f"Schema inicializado desde {path}")
+
+
+def seed_admin(engine):
     with engine.begin() as conn:
         existing = conn.execute(
             text("SELECT id FROM users WHERE email = 'admin@alerto.com'")
@@ -39,4 +60,6 @@ def seed_admin():
 
 
 if __name__ == "__main__":
-    seed_admin()
+    engine = get_engine()
+    init_schema(engine)
+    seed_admin(engine)
