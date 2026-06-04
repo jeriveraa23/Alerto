@@ -6,9 +6,10 @@
 
 with latest_data as (
 
-    -- El timestamp más reciente disponible en Silver hourly
+    -- El timestamp real más reciente (ignorando el pronóstico futuro de la API)
     select max(time_local) as as_of_time
     from {{ ref('silver_weather_hourly') }}
+    where time_local <= current_timestamp
 
 ),
 

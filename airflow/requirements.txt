@@ -4,5 +4,7 @@ pandas
 sqlalchemy
 scikit-fuzzy
 numpy
+dbt-core==1.8.2
 dbt-postgres==1.8.2
 scipy
+networkx

@@ -8,7 +8,7 @@ services:
       POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
       POSTGRES_DB: ${POSTGRES_DB}
     ports:
-      - "5432:5432"
+      - "5433:5432"
     volumes:
       - postgres_data:/var/lib/postgresql/data
       - ./config/init.sql:/docker-entrypoint-initdb.d/init.sql
@@ -76,6 +76,9 @@ services:
       - .env
     environment:
       DBT_PROFILES_DIR: /opt/dbt
+      DBT_LOG_PATH: /tmp/dbt_logs
+      DBT_TARGET_PATH: /tmp/dbt_target
+      DBT_PACKAGES_INSTALL_PATH: /tmp/dbt_packages
     volumes:
       - airflow_data:/opt/airflow
       - ./airflow/dags:/opt/airflow/dags
@@ -97,6 +100,9 @@ services:
       - .env
     environment:
       DBT_PROFILES_DIR: /opt/dbt
+      DBT_LOG_PATH: /tmp/dbt_logs
+      DBT_TARGET_PATH: /tmp/dbt_target
+      DBT_PACKAGES_INSTALL_PATH: /tmp/dbt_packages
     volumes:
       - airflow_data:/opt/airflow
       - ./airflow/dags:/opt/airflow/dags
@@ -118,6 +124,9 @@ services:
     working_dir: /dbt
     environment:
       DBT_PROFILES_DIR: /dbt
+      DBT_LOG_PATH: /tmp/dbt_logs
+      DBT_TARGET_PATH: /tmp/dbt_target
+      DBT_PACKAGES_INSTALL_PATH: /tmp/dbt_packages
 
 volumes:
   postgres_data:

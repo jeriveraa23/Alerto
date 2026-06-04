@@ -6,3 +6,4 @@ python-dotenv
 requests
 bcrypt
 pyjwt
+email-validator>=2.0
